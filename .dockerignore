@@ -1,0 +1,5 @@
+docker/
+.env*
+.git*
+LICENSE
+README.md
