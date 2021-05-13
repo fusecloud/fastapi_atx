@@ -1,7 +1,7 @@
 from typing import List, Dict
 from datetime import datetime
 import fastapi
-import uvicorn
+
 
 api = fastapi.FastAPI()
 
@@ -49,6 +49,3 @@ async def todos_post(todo_submission: Dict) -> str:
         name=todo_submission['name'],
         frequency=todo_submission['days_until_alert']
     )
-
-
-uvicorn.run(app=api, port=8000, host='127.0.0.1')
