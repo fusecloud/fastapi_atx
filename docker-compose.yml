@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  #  fastapi container: this will be container 1
+  server:
+    #  We're setting up our first service - server - and telling it to build using the Dockerfile we just defined.
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+    volumes:
+      #      We're saving the backend files to volume. More on this later.
+      - ./backend/:/backend/
+    command: uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    #    We'll serve up our application with uvicorn, and host the backend on localhost:8000.
+    env_file:
+      #    All other environment variables will be taken from our .env file.
+      - ./backend/.env
+    ports:
+      - 8000:8000

@@ -1,0 +1,20 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="page-core">
+            <h1>Your PyPI Account</h1>
+
+            <div>
+                Welcome to your account ${ user.name }!
+            </div>
+        </div>
+        <div>
+            <!--?            TODO: Link to chores page-->
+            <a class="nav-link" href="/chores">My Chores</a>
+        </div>
+        <div>
+            <a class="nav-link" href="/api_">API Credentials</a>
+            <!--?            TODO: Link to API registration page-->
+        </div>
+    </div>
+</div>
+

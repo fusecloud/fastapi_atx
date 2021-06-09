@@ -1,0 +1,25 @@
+# core
+fastapi
+uvicorn==0.11.8
+gunicorn
+
+# forms
+python-multipart
+git+https://github.com/mikeckennedy/fastapi-chameleon.git
+
+# website utilities
+progressbar2
+python-dateutil
+passlib
+
+# databases
+#sqlalchemy==1.4.0b2
+sqlalchemy>=1.4.3
+aiosqlite>=0.17.0
+
+#authentication
+PyJWT>=1.7.1
+ython-decouple>=3.3
+
+# not sure
+aiofiles

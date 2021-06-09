@@ -1,0 +1,55 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+
+        <div class="content">
+
+            <div class="hero">
+                <div class="hero-inner">
+                    <h1>
+                        Explore and rank algorithm patterns <br>
+                        produced to match 'professional' charts
+                    </h1>
+
+                    <input type="text" class="form-control"
+                           placeholder=" Search tickers">
+
+                    <br>
+                    <br>
+                    <br>
+                    Or <a href="#">browse patterns</a>
+                </div>
+            </div>
+
+            <div class="pypi-stats">
+                <div class="stat">${'{:,}'.format(package_count)} sourced</div>
+                <div class="stat">${'{:,}'.format(release_count)} produced</div>
+                <div class="stat">${'{:,}'.format(user_count)} matched</div>
+            </div>
+
+            <div class="container project-list">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+
+                        <h2>New releases</h2>
+                        <span class="subtitle">Newest ticker & pattern combinations scored</span>
+
+
+                        <div class="project" tal:repeat="p packages">
+                            <div class="title"><a href="/project/${p.id}">${p.id}</a></div>
+                            <div class="desc">${p.summary}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div metal:fill-slot="additional-css" tal:omit-tag="True">
+        <!-- additional css from the page -->
+    </div>
+</div>
