@@ -1,0 +1,50 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="page-core">
+
+            <div tal:repeat="c chores">
+
+                <div class="form-container" tal:condition="repeat['c'].index == 0">
+                    <form action="" method="POST" class="account-form">
+                        <h1>Update Chore</h1>
+
+                        <input name="name" type="text" class="form-control" value="${c.name}"
+                               required>
+                        <br>
+                        <hr>
+<br>
+                        <input name="category" type="text" class="form-control"
+                               value="${c.category}" required>
+                        <br>
+                        <hr>
+                        <br>
+                        <select name="type" class="form-select">
+                            <option value="recurring">Recurring</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <br>
+                        <hr>
+                        <br>
+                        <input name="alert_days" type="number" min="0" max="365" class="form-control"
+                               placeholder=" Days until Alert"
+                               value="${c.alert_days}"
+                               style="display: block">
+
+                        <br>
+                        <hr>
+                        <br>
+
+                        <button type="submit" class="btn btn-danger">Submit</button>
+                        <div style="clear: both;"></div>
+
+                        <div class="error-msg" tal:condition="error">${ error }</div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div metal:fill-slot="additional_css" tal:omit-tag="True">
+        <link rel="stylesheet" href="/static/css/chore_forms.css">
+    </div>
+</div>

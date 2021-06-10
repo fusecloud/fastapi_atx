@@ -1,10 +1,14 @@
 <div metal:use-macro="load: ../shared/_layout.pt">
     <div metal:fill-slot="content" tal:omit-tag="True">
         <div class="page-core">
-            <h1>Your PyPI Account</h1>
+            <h1>Your ChoreViz Account</h1>
 
             <div>
-                Welcome to your account ${ user.name }!
+                Welcome ${ user.name }!
+            </div>
+            <br>
+            <div>
+                Your API Key is: ${ user.api_key }!
             </div>
         </div>
         <div>
@@ -12,8 +16,7 @@
             <a class="nav-link" href="/chores">My Chores</a>
         </div>
         <div>
-            <a class="nav-link" href="/api_">API Credentials</a>
-            <!--?            TODO: Link to API registration page-->
+            <a class="nav-link" href="/docs" target="">API Docs</a>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ body {
     padding: 0px;
     font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
     font-size: 17px;
-    background-color: #31490b;
+    background-color: #2A2C2FFF;
 }
 
 .main_content {
@@ -15,7 +15,7 @@ body {
 
 
 .hero {
-    background-color: #31490b;
+    background-color: #2A2C2FFF;
     color: white;
     font-size: 18px;
 
@@ -61,7 +61,7 @@ body {
     min-width: 170px;
     padding: 10px;
     font-size: 16px;
-    color: #003d61;
+    color: #2A2C2FFF;
 }
 
 .project-list .subtitle {
@@ -88,7 +88,7 @@ body {
 }
 
 .project-list .project a {
-    color: #006dad;
+    color: #2A2C2FFF;
 }
 
 .project-list .project .desc {
@@ -106,7 +106,7 @@ footer {
 }
 
 footer a {
-    color: #2495f2;
+    color: #2A2C2FFF;
 }
 
 .error-msg {

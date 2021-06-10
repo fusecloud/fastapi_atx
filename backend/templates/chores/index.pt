@@ -1,0 +1,43 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="page-core">
+            <h1>Your Chores</h1>
+            <!--?todo: repeat chores-->
+
+            <div class="chore" tal:repeat="c chores">
+                <hr>
+                <a href="/chores/${c.id}"><h3>${c.name}</h3></a>
+                <!--?                <div class="title">${c.id}</a></div>-->
+                <br>
+                <div class="row">
+                    <div class="col-md-1 col-sm-1">
+                        <form
+                                action="/chores/${c.id}=delete"
+                                method="POST" class="account-form">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <div style="clear: both;"></div>
+                        </form>
+                    </div>
+                    <div class="col-md-1 col-sm-1">
+                        <form
+                                action="/chores/${c.id}/edit"
+                                method="GET" class="account-form">
+                            <button type="submit" class="btn btn-dark">Update</button>
+                            <div style="clear: both;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <form
+                    action="/create_chore"
+                    method="GET" class="account-form">
+                <button type="submit" class="btn btn-primary"><h2>Create Chore</h2></button>
+                <div style="clear: both;"></div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

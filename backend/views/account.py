@@ -103,5 +103,3 @@ def logout(request: Request):
     cookie_auth.logout(response)
 
     return response
-
-

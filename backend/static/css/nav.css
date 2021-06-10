@@ -5,19 +5,19 @@
 }
 
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #02377c;
+    border-color: #2a2c2f;
 
     color: white;
 }
 
 .navbar-inverse {
-    background-color: #0066aa;
-    border-color: #0067a3;
+    background-color: #2A2C2FFF;
+    border-color: #2A2C2FFF;
 }
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
     color: #fff;
-    background-color: #024bbf;
+    background-color: #2A2C2FFF;
 }
 
 .navbar-inverse .navbar-brand,
@@ -65,7 +65,7 @@ nav {
     font-size: 17px;
     color: white;
     height: 85px;
-    background-color: #0073b7;
+    background-color: #2A2C2FFF;
 }
 
 nav > a {
@@ -80,6 +80,6 @@ nav > a {
 }
 
 #navbarSupportedContent {
-    background-color: #0066aa;
+    background-color: #2A2C2FFF;
     padding: 10px;
 }

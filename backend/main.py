@@ -3,16 +3,18 @@ from typing import Optional
 
 import fastapi
 import uvicorn
+from starlette.requests import Request
+from starlette.responses import Response
 from starlette.staticfiles import StaticFiles
 import fastapi_chameleon
 
-from data import db_session
+from data import db_session, load_fake_data
 
 # web app views
-from views import home, account
+from views import home, account, chores
 
 # api routes
-from api import chores
+# from api import chores
 
 app = fastapi.FastAPI()
 
@@ -31,6 +33,7 @@ def configure(dev_mode: bool):
     configure_templates(dev_mode)
     configure_routes()
     configure_db()
+    load_fake_data.run()
 
 
 def configure_templates(dev_mode: bool):
@@ -53,9 +56,10 @@ def configure_routes():
     # links to the fastapi.APIRouter() object in views modules
     app.include_router(home.router)
     app.include_router(account.router)
+    app.include_router(chores.router)
 
     # todo api routes
-    app.include_router(chores.api)
+    # app.include_router(chores.api)
     # api.include_router(sse_api.router)
     # api.include_router(lab_api.router)
     # api.include_router(chartlab_api.router)

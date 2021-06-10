@@ -1,0 +1,15 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="page-core">
+
+            <div class="chore" tal:repeat="c chores">
+                <h1>${c.name}</h1>
+                <div class="title"><a href="/chores/${c.id}">${c.id}</a></div>
+                <div class="desc">${c.name}</div>
+<!--?                todo; delete button-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
