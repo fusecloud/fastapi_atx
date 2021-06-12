@@ -8,7 +8,7 @@
             <input name="email" type="email" placeholder=" Your email address" class="form-control" value="${ email }" required>
             <input name="password" minlength="5" type="password" placeholder=" Password" class="form-control" value="${ password }" required>
             <input name="age" type="number" min="18" max="120" placeholder=" Your age in years" style="display: block; width: 100%" required>
-            <button type="submit" class="btn btn-danger">Register</button>
+            <button type="submit" class="btn btn-success">Register</button>
             <div style="clear: both;"></div>
 
             <div class="error-msg" tal:condition="error">${ error }</div>

@@ -8,10 +8,11 @@ aiofiles
 python-multipart
 git+https://github.com/mikeckennedy/fastapi-chameleon.git
 
-# website utilities
+# utilities
 progressbar2
 python-dateutil
 passlib
+colorama
 
 # databases
 #sqlalchemy==1.4.0b2

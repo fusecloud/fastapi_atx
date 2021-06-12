@@ -8,7 +8,7 @@
             </div>
             <br>
             <div>
-                Your API Key is: ${ user.api_key }!
+                Your API Key is: ${ user.api_key }
             </div>
         </div>
         <div>
@@ -16,7 +16,7 @@
             <a class="nav-link" href="/chores">My Chores</a>
         </div>
         <div>
-            <a class="nav-link" href="/docs" target="">API Docs</a>
+            <a class="nav-link" href="/docs" target="_blank">API Docs</a>
         </div>
     </div>
 </div>

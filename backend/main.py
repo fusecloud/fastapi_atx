@@ -14,9 +14,16 @@ from data import db_session, load_fake_data
 from views import home, account, chores
 
 # api routes
-# from api import chores
+from api import chores as chores_api
 
-app = fastapi.FastAPI()
+app = fastapi.FastAPI(
+    title="ChoreViz API",
+    description='''
+        This is the API documentation.  Always include the following headers object on API requests:\n
+        {Authorization: <API_KEY>}
+    ''',
+    version="0.0.1"
+)
 
 
 def main():
@@ -53,16 +60,14 @@ def configure_routes():
     """
     # mount static folder
     app.mount('/static', StaticFiles(directory='static'), name='static')
-    # links to the fastapi.APIRouter() object in views modules
+
+    # web app page routes
     app.include_router(home.router)
     app.include_router(account.router)
     app.include_router(chores.router)
 
-    # todo api routes
-    # app.include_router(chores.api)
-    # api.include_router(sse_api.router)
-    # api.include_router(lab_api.router)
-    # api.include_router(chartlab_api.router)
+    # api endpoints
+    app.include_router(chores_api.router)
 
 
 def configure_db(conn_str: Optional[str] = False):

@@ -22,6 +22,10 @@ fastapi_chameleon.global_init('templates')
 async def index(request: Request):
     vm = AccountViewModel(request)
     await vm.load()
+    if not vm.user:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     return vm.to_dict()
 
 

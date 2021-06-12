@@ -23,6 +23,11 @@ fastapi_chameleon.global_init('templates')
 @template(template_file='chores/index.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     await vm.load()
     return vm.to_dict()
 
@@ -32,9 +37,14 @@ async def index(request: Request):
 @template(template_file='chores/selected.pt')
 async def index_selected(request: Request, id: int):
     vm = ChoreViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     await vm.load(chore_id=id)
-    print("RESULT")
-    print(vm.to_dict())
+    # print("RESULT")
+    # print(vm.to_dict())
     return vm.to_dict()
 
 
@@ -43,7 +53,11 @@ async def index_selected(request: Request, id: int):
 @template(template_file='chores/create.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
-    # await vm.add_new_chore()
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     return vm.to_dict()
 
 
@@ -51,6 +65,11 @@ async def index(request: Request):
 @template(template_file='chores/create.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     await vm.add_chore()
     if vm.error:
         return vm.to_dict()
@@ -70,22 +89,19 @@ async def index(request: Request):
 
 # put
 
-# delete/edit intent
-@router.post('/chores/{id}={action}', include_in_schema=True)
-async def index(id: int, action: str):
-    print(action)
-    if action == 'delete':
-        print(action)
-        await chore_service.remove_chore(id=id)
+# delete
+@router.post('/chores/{id}/delete', include_in_schema=True)
+async def index(request: Request, id: int):
+    vm = ChoreViewModel(request)
 
-        response = fastapi.responses.RedirectResponse(url=f"/chores", status_code=status.HTTP_302_FOUND)
-
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
         return response
 
-    elif action == 'edit':
-        response = fastapi.responses.RedirectResponse(url=f"/chores/{id}/edit", status_code=status.HTTP_302_FOUND)
+    await chore_service.remove_chore(id=id)
+    response = fastapi.responses.RedirectResponse(url=f"/chores", status_code=status.HTTP_302_FOUND)
 
-        return response
+    return response
 
 
 # edit
@@ -93,6 +109,11 @@ async def index(id: int, action: str):
 @template(template_file='chores/edit.pt')
 async def index(request: Request, id: int):
     vm = ChoreViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     await vm.load(chore_id=id)
     return vm.to_dict()
 
@@ -101,6 +122,11 @@ async def index(request: Request, id: int):
 @template(template_file='chores/edit.pt')
 async def index(request: Request, id: int):
     vm = ChoreViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
     await vm.add_chore()
     if vm.error:
         return vm.to_dict()

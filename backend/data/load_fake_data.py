@@ -1,3 +1,4 @@
+from colorama import Fore
 from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 from datetime import datetime
 from typing import Optional
@@ -11,6 +12,7 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     user_name = "Johnny Test"
     user_id = 1051
     password = pwd.genword()
+    api_key = pwd.genword()
 
     # load fake users
     df_users = \
@@ -19,7 +21,7 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
             "name": [user_name],
             "email": [user_email],
             "hash_password": [password],
-            "api_key": [pwd.genword()],
+            "api_key": [api_key],
             "created_date": [datetime.now()],
             "last_login": [datetime.now()],
             "profile_image_url": [""]
@@ -28,8 +30,8 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     df_users.to_sql(name="users", con=conn_str, index=False, if_exists="append")
     df_users_loaded = pd.read_sql_query(sql="select * from users", con=conn_str)
 
-    print("Users loaded: ")
-    print(df_users_loaded)
+    print(Fore.BLUE + "Users loaded: ")
+    print(Fore.BLUE + str(df_users_loaded))
 
     # load fake chores
     df_chores = \
@@ -46,7 +48,8 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     df_chores.to_sql(name="chores", con=conn_str, index=False, if_exists="append")
     df_chores_loaded = pd.read_sql_query(sql="select * from chores", con=conn_str)
 
-    print("Chores loaded: ")
-    print(df_chores_loaded)
-    print(f"Test Email: {user_email}")
-    print(f"Test Password: {password}")
+    print(Fore.CYAN + "Chores loaded: ")
+    print(Fore.CYAN + str(df_chores_loaded))
+    print(Fore.GREEN + f"Test Email: {user_email}")
+    print(Fore.LIGHTRED_EX + f"Test Password: {password}")
+    print(Fore.LIGHTRED_EX + f"Test API Key: {api_key}")

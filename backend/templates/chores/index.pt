@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-md-1 col-sm-1">
                         <form
-                                action="/chores/${c.id}=delete"
+                                action="/chores/${c.id}/delete"
                                 method="POST" class="account-form">
                             <button type="submit" class="btn btn-danger">Delete</button>
                             <div style="clear: both;"></div>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-1 col-sm-1">
                         <form
-                                action="/chores/${c.id}/edit"
+                                action="/chores/${c.id}?edit"
                                 method="GET" class="account-form">
                             <button type="submit" class="btn btn-dark">Update</button>
                             <div style="clear: both;"></div>

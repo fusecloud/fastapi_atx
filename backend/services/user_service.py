@@ -11,6 +11,13 @@ from data.models.user import User
 
 
 async def create_account(name: str, email: str, password: str) -> User:
+    """
+
+    :param name:
+    :param email:
+    :param password:
+    :return:
+    """
     # this stuff will run ahead of time (right away)
     user = User()
     user.email = email
@@ -27,6 +34,12 @@ async def create_account(name: str, email: str, password: str) -> User:
 
 
 async def login_user(email: str, password: str) -> Optional[User]:
+    """
+
+    :param email:
+    :param password:
+    :return:
+    """
     async with db_session.create_async_session() as session:
         query = select(User).filter(User.email == email)
         results = await session.execute(query)
@@ -47,6 +60,11 @@ async def login_user(email: str, password: str) -> Optional[User]:
 
 
 async def get_user_by_id(user_id: int) -> Optional[User]:
+    """
+
+    :param user_id:
+    :return:
+    """
     async with db_session.create_async_session() as session:
         query = select(User).filter(User.id == user_id)
         result = await session.execute(query)
@@ -54,7 +72,24 @@ async def get_user_by_id(user_id: int) -> Optional[User]:
 
 
 async def get_user_by_email(email: str) -> Optional[User]:
+    """
+
+    :param email:
+    :return:
+    """
     async with db_session.create_async_session() as session:
         query = select(User).filter(User.email == email)
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
+
+
+async def get_user_by_api_key(api_key: str) -> Optional[User]:
+    """
+
+    :param api_key:
+    :return:
+    """
+    async with db_session.create_async_session() as session:
+        query = select(User).filter(User.api_key == api_key)
         result = await session.execute(query)
         return result.scalar_one_or_none()

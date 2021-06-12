@@ -22,13 +22,11 @@ class ChoreViewModel(ViewModelBase):
 
     async def load(self, chore_id: Optional[int] = False):
         self.chores = \
-            await (
-                chore_service
-                    .get_user_chores(
-                    self.user_id,
-                    chore_id
+            await chore_service.get_user_chores(
+                    user_id=self.user_id,
+                    chore_id=chore_id
                 )
-            )
+
         print(f"# User ID...{self.user_id}")
         if not chore_id:
             # to avoid this error:
