@@ -1,19 +1,27 @@
-# from starlette.status import HTTP_403_FORBIDDEN
-# from fastapi import Security, HTTPException
-# from fastapi.security import APIKeyHeader
-#
-# API_KEY_NAME = "access_token"
-# _api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
-#
-#
-# async def get_api_key(api_key_header: str = Security(_api_key_header)):
-#
-#
-# #     api_key_header == API_KEY:
-# #     return api_key_header
-# # # elif api_key_cookie == API_KEY:
-# # #     return api_key_cookie
-# # else:
-# # raise HTTPException(
-# #     status_code=HTTP_403_FORBIDDEN, detail="Could not validate credentials"
-# # )
+from fastapi import Security, HTTPException
+from fastapi.security import APIKeyHeader
+from starlette import status
+
+from api.models.user import User
+from services import user_service
+
+API_HEADER_KEY_NAME = "Authorization"
+api_key_header_auth = APIKeyHeader(name=API_HEADER_KEY_NAME, auto_error=True)
+
+
+async def get_api_key(api_key_header: str = Security(api_key_header_auth)) -> User:
+    if not api_key_header:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing API Key",
+        )
+
+    user = await user_service.get_user_by_api_key(api_key_header)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API Key",
+        )
+
+    return user

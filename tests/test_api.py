@@ -2,7 +2,7 @@ import json
 import requests
 
 # get all chores
-headers = {"Authorization": "5Kp8SUJbm"}
+headers = {"Authorization": "mzuZXavJ0"}
 r = requests.get("http://127.0.0.1:8000/api/chores", headers=headers)
 print(json.loads(r.content))
 
