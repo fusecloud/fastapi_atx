@@ -1,47 +1,94 @@
-import json
-from typing import Optional, List, Dict
-
+from typing import Optional, List
 import fastapi
 from fastapi import Header, Body, Depends
 from api.models.chore import Chore
 from api.models.user import User
-from fastapi.openapi.models import APIKey
 from starlette import status
+from starlette.responses import Response
 
 from services import chore_service, user_service
 from infrastructure.api_auth import get_api_key
-
-from starlette.status import HTTP_403_FORBIDDEN
 from fastapi import Security, HTTPException
-from fastapi.security import APIKeyHeader
 
 router = fastapi.APIRouter()
 
 
-@router.get('/api/chores', dependencies=[Security(get_api_key)], name="all_chores", response_model=List[Chore])
-async def all_chores(user: User = Depends(get_api_key)) -> Optional[List[Chore]]:
+@router.get('/api/chores', dependencies=[Security(get_api_key)], name="get chores", response_model=List[Chore])
+async def get_chores(search_criteria: Optional[Chore] = None,
+                     user: User = Depends(get_api_key)) -> Optional[List[Chore]]:
     """
     Returns all of an authorized user's chores
     """
 
-    return await chore_service.get_user_chores(user_id=user.id)
+    if search_criteria and search_criteria['chore_id']:
+        print(f"User searched for chore: {search_criteria['chore_id']}")
+
+    return await chore_service.get_user_chores(
+        user_id=user.id,
+        chore_id=search_criteria['chore_id'] if search_criteria and search_criteria['chore_id'] else None
+    )
 
 
-@router.get('/api/chores/{id}', dependencies=[Security(get_api_key)], name="specific_chore", response_model=List[Chore])
-async def all_chores(id: int, user: User = Depends(get_api_key)) -> Optional[List[Chore]]:
+@router.post('/api/create_chore', dependencies=[Security(get_api_key)], name="create chore")
+async def create_chore(search_criteria: Chore, user: User = Depends(get_api_key)) -> Response:
     """
-    Returns all of an authorized user's chores
+    Creates a user chore
     """
 
-    print("found user:....")
-    print(user)
+    await chore_service.add_chore(
+        user_id=user.id,
+        name=search_criteria.name,
+        category=search_criteria.category,
+        type=search_criteria.type,
+        alert_days=search_criteria.alert_days
+    )
 
-    return await chore_service.get_user_chores(user_id=user.id, chore_id=id)
+    return Response(content="Chore Created", status_code=200)
 
-# todo: add additional docs
-# get specific chore
-# create a chore
-# update a chore
+
+# edit a chore
+@router.post('/api/edit_chore', dependencies=[Security(get_api_key)], name="edit chore")
+async def edit_chore(search_criteria: Chore, user: User = Depends(get_api_key)) -> Response:
+    """
+    Edits a user chore
+    """
+
+    if not search_criteria.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Missing chore id",
+        )
+
+    await chore_service.edit_chore(
+        user_id=user.id,
+        id=search_criteria.id,
+        name=search_criteria.name,
+        category=search_criteria.category,
+        type=search_criteria.type,
+        alert_days=search_criteria.alert_days
+    )
+
+    return Response(content="Chore Updated", status_code=200)
+
+
 # delete a chore
+@router.post('/api/delete_chore', dependencies=[Security(get_api_key)], name="delete chore")
+async def delete_chore(search_criteria: Chore, user: User = Depends(get_api_key)) -> Response:
+    """
+    Deletes a user chore
+    """
+    if not search_criteria.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Missing chore id",
+        )
+
+    await chore_service.remove_chore(
+        user_id=user.id,
+        id=search_criteria.id,
+    )
+
+    return Response(content="Chore Deleted", status_code=200)
 
 # todo: add examples in routes
+# https://fastapi.tiangolo.com/tutorial/schema-extra-example/

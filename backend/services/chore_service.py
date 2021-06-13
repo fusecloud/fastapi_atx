@@ -27,8 +27,7 @@ async def add_chore(name: str, category: str,
     return chore
 
 
-async def edit_chore(id: int, name: str, category: str, type: str, alert_days: int,
-                     user_id: Optional[int] = False, api_key: Optional[str] = False):
+async def edit_chore(id: int, user_id: int, name: str, category: str, type: str, alert_days: int):
     async with db_session.create_async_session() as session:
         sql = f'''
         update chores
@@ -38,21 +37,19 @@ async def edit_chore(id: int, name: str, category: str, type: str, alert_days: i
         type = '{type}',
         alert_days = {alert_days}
         where id = {id}
-        {"and user_id = " + str(user_id) if user_id
-        else "and user_id IN (select id from users where api_key = '" + api_key + "')"}
+        and user_id = {user_id}
         '''
         print(sql)
         await session.execute(sql)
         await session.commit()
 
 
-async def remove_chore(id: int, user_id: Optional[int] = False, api_key: Optional[str] = False):
+async def remove_chore(id: int, user_id: int):
     async with db_session.create_async_session() as session:
         sql = f'''
         delete from chores 
         where id = {id}
-        {"and user_id = " + str(user_id) if user_id
-        else "and user_id IN (select id from users where api_key = '" + api_key + "')"}
+        and user_id = {user_id}
         '''
         print(sql)
         await session.execute(sql)

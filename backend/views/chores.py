@@ -19,7 +19,7 @@ fastapi_chameleon.global_init('templates')
 
 
 # get
-@router.get('/chores', include_in_schema=True)
+@router.get('/chores')
 @template(template_file='chores/index.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
@@ -33,7 +33,7 @@ async def index(request: Request):
 
 
 # get specific chore
-@router.get('/chores/{id}', include_in_schema=True)
+@router.get('/chores/{id}')
 @template(template_file='chores/selected.pt')
 async def index_selected(request: Request, id: int):
     vm = ChoreViewModel(request)
@@ -43,13 +43,11 @@ async def index_selected(request: Request, id: int):
         return response
 
     await vm.load(chore_id=id)
-    # print("RESULT")
-    # print(vm.to_dict())
     return vm.to_dict()
 
 
-# CREATE CHORE FORM
-@router.get('/create_chore', include_in_schema=True)
+# create a chore form the form
+@router.get('/create_chore')
 @template(template_file='chores/create.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
@@ -61,7 +59,7 @@ async def index(request: Request):
     return vm.to_dict()
 
 
-@router.post('/create_chore', include_in_schema=True)
+@router.post('/create_chore')
 @template(template_file='chores/create.pt')
 async def index(request: Request):
     vm = ChoreViewModel(request)
@@ -87,10 +85,8 @@ async def index(request: Request):
     return response
 
 
-# put
-
-# delete
-@router.post('/chores/{id}/delete', include_in_schema=True)
+# delete a chore
+@router.post('/chores/{id}/delete')
 async def index(request: Request, id: int):
     vm = ChoreViewModel(request)
 
@@ -98,14 +94,14 @@ async def index(request: Request, id: int):
         response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
         return response
 
-    await chore_service.remove_chore(id=id)
+    await chore_service.remove_chore(id=id, user_id=vm.user_id)
     response = fastapi.responses.RedirectResponse(url=f"/chores", status_code=status.HTTP_302_FOUND)
 
     return response
 
 
 # edit
-@router.get('/chores/{id}/edit', include_in_schema=True)
+@router.get('/chores/{id}/edit')
 @template(template_file='chores/edit.pt')
 async def index(request: Request, id: int):
     vm = ChoreViewModel(request)
@@ -118,7 +114,7 @@ async def index(request: Request, id: int):
     return vm.to_dict()
 
 
-@router.post('/chores/{id}/edit', include_in_schema=True)
+@router.post('/chores/{id}/edit')
 @template(template_file='chores/edit.pt')
 async def index(request: Request, id: int):
     vm = ChoreViewModel(request)
@@ -133,6 +129,7 @@ async def index(request: Request, id: int):
 
     await chore_service.edit_chore(
         id=id,
+        user_id=vm.user_id,
         name=vm.name,
         category=vm.category,
         type=vm.type,

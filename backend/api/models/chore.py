@@ -1,9 +1,11 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class Chore(BaseModel):
-    id: int
-    user_id: int
+    id: Optional[int]
+    user_id: Optional[int]
     name: str
     category: str
     type: str

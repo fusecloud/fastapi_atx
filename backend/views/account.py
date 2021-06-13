@@ -17,7 +17,7 @@ router = fastapi.APIRouter()
 fastapi_chameleon.global_init('templates')
 
 
-@router.get('/account', include_in_schema=False)
+@router.get('/account')
 @template()
 async def index(request: Request):
     vm = AccountViewModel(request)
@@ -30,7 +30,7 @@ async def index(request: Request):
 
 
 # ################### REGISTER #################################
-@router.get('/account/register', include_in_schema=False)
+@router.get('/account/register')
 @template()
 def register(request: Request):
     """
@@ -43,7 +43,7 @@ def register(request: Request):
     return vm.to_dict()
 
 
-@router.post('/account/register', include_in_schema=False)
+@router.post('/account/register')
 @template()
 async def register(request: Request):
     """
@@ -69,14 +69,14 @@ async def register(request: Request):
 
 
 # ################### LOGIN/LOGOUT #################################
-@router.get('/account/login', include_in_schema=False)
+@router.get('/account/login')
 @template(template_file='account/login.pt')
 def login_get(request: Request):
     vm = LoginViewModel(request)
     return vm.to_dict()
 
 
-@router.post('/account/login', include_in_schema=False)
+@router.post('/account/login')
 @template(template_file='account/login.pt')
 async def login_post(request: Request):
     vm = LoginViewModel(request)
@@ -101,7 +101,7 @@ async def login_post(request: Request):
     return resp
 
 
-@router.get('/account/logout', include_in_schema=False)
+@router.get('/account/logout')
 def logout(request: Request):
     response = fastapi.responses.RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
     cookie_auth.logout(response)

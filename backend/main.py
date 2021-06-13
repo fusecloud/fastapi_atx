@@ -62,9 +62,9 @@ def configure_routes():
     app.mount('/static', StaticFiles(directory='static'), name='static')
 
     # web app page routes
-    app.include_router(home.router)
-    app.include_router(account.router)
-    app.include_router(chores.router)
+    app.include_router(home.router, include_in_schema=False)
+    app.include_router(account.router, include_in_schema=False)
+    app.include_router(chores.router, include_in_schema=False)
 
     # api endpoints
     app.include_router(chores_api.router)
