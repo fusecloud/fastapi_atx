@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  api:
+    hostname: api
+    container_name: api
+    build:
+      args:
+        - PYTHON_VERSION
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/:/api
+    command: >
+      uvicorn
+        "main:api"
+        --reload
+        --host 0.0.0.0
