@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 import fastapi
 from fastapi import Header, Body, Depends
 from api.models.chore import Chore
@@ -14,7 +14,7 @@ router = fastapi.APIRouter()
 
 
 @router.get('/api/chores', dependencies=[Security(get_api_key)], name="get chores", response_model=List[Chore])
-async def get_chores(search_criteria: Optional[Chore] = None,
+async def get_chores(search_criteria: Optional[Dict] = None,
                      user: User = Depends(get_api_key)) -> Optional[List[Chore]]:
     """
     Returns all of an authorized user's chores

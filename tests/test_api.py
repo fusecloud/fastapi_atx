@@ -1,20 +1,26 @@
 import json
+import pprint
 import requests
 
-api_key = "m82oQ2cUl"
+# pwd="9Qmrn6amB"
+api_key = "rGDZ3jBhM"
 headers = {"Authorization": api_key}
 
 # get all chores
-r = requests.get("http://127.0.0.1:8000/api/chores", headers=headers)
-print(json.loads(r.content))
+r = requests.get("http://127.0.0.1:8000/api/chores",
+                 headers=headers)
+pprint.pprint(json.loads(r.content))
 
 # get specific chore
-r = requests.get("http://127.0.0.1:8000/api/chores", headers=headers, json={"chore_id": "259823"})
-print(json.loads(r.content))
+r = requests.get("http://127.0.0.1:8000/api/chores",
+                 headers=headers,
+                 json={"chore_id": "259822"})
+pprint.pprint(json.loads(r.content))
 
 # add a chore
 r = requests.post(
-    "http://127.0.0.1:8000/api/create_chore", headers=headers,
+    "http://127.0.0.1:8000/api/create_chore",
+    headers=headers,
     json= \
         {
             "name": "Test API Chore",
@@ -23,13 +29,14 @@ r = requests.post(
             "alert_days": 3
         }
 )
-print(r.content)
+pprint.pprint(r.content)
 
-chore_id = 259824
+chore_id = 259829
 
 # edit a chore
 r = requests.post(
-    "http://127.0.0.1:8000/api/edit_chore", headers=headers,
+    "http://127.0.0.1:8000/api/edit_chore",
+    headers=headers,
     json= \
         {
             "id": chore_id,
@@ -43,7 +50,8 @@ print(r.content)
 
 # delete a chore
 r = requests.post(
-    "http://127.0.0.1:8000/api/delete_chore", headers=headers,
+    "http://127.0.0.1:8000/api/delete_chore",
+    headers=headers,
     json= \
         {
             "id": chore_id,
