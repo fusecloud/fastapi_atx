@@ -8,6 +8,11 @@ aiofiles
 python-multipart
 git+https://github.com/mikeckennedy/fastapi-chameleon.git
 
+# jwt
+python-jose
+cryptography
+passlib[bcrypt]
+
 # utilities
 progressbar2
 python-dateutil

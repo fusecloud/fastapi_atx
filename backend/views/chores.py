@@ -6,11 +6,9 @@ import fastapi
 from starlette import status
 from starlette.requests import Request
 
-from viewmodels.account.account_view_model import AccountViewModel
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.gzip import GZipMiddleware
 from viewmodels.chores.chore_view_model import ChoreViewModel
-from viewmodels.account.login_view_model import LoginViewModel
-from viewmodels.account.register_view_model import RegisterViewModel
-from infrastructure import cookie_auth
 from services import user_service, chore_service
 
 router = fastapi.APIRouter()
@@ -138,3 +136,18 @@ async def index(request: Request, id: int):
 
     response = fastapi.responses.RedirectResponse(url=f"/chores/{id}", status_code=status.HTTP_302_FOUND)
     return response
+
+
+# upload chores from a file
+# @router.get('/upload_chore_file')
+# @template(template_file='chores/upload.pt')
+# async def index(request: Request):
+#     vm = ChoreViewModel(request)
+#
+#     if not vm.user_id:
+#         response = fastapi.response.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+#         return response
+#
+#     return vm.to_dict()
+#
+# @router.

@@ -2,16 +2,16 @@ from pathlib import Path
 from typing import Optional
 
 import fastapi
+from fastapi import File, UploadFile
+from fastapi.middleware.gzip import GZipMiddleware
 import uvicorn
-from starlette.requests import Request
-from starlette.responses import Response
 from starlette.staticfiles import StaticFiles
 import fastapi_chameleon
 
 from data import db_session, load_fake_data
 
 # web app views
-from views import home, account, chores
+from views import home, account, chores, oauth
 
 # api routes
 from api import chores as chores_api
@@ -24,6 +24,9 @@ app = fastapi.FastAPI(
     ''',
     version="0.0.1"
 )
+
+
+# app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 
 def main():
@@ -68,6 +71,9 @@ def configure_routes():
 
     # api endpoints
     app.include_router(chores_api.router)
+
+    # oauth endpoints
+    app.include_router(oauth.router)
 
 
 def configure_db(conn_str: Optional[str] = False):
