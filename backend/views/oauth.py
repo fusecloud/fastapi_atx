@@ -1,12 +1,19 @@
+from datetime import timedelta
+
 import fastapi_chameleon
 import fastapi
-from datetime import datetime, timedelta
-from data.models.user_oauth import User, UserInDB, Token
+from data.models.oauth import User, UserInDB, Token, TokenData
+from fastapi_chameleon import template
 from infrastructure.oauth import get_current_user, fake_users_db, fake_hash_password, \
     authenticate_user, create_access_token, get_current_active_user
 
+from data.models.user import User
+from services import user_service
+from viewmodels.account.oauth_login_view_model import OauthLoginViewModel
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from starlette.requests import Request
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -55,44 +62,90 @@ async def read_items(token: str = Depends(oauth2_scheme)):
     return {"token": token}
 
 
-@router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user_dict = fake_users_db.get(form_data.username)
-    if not user_dict:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-    user = UserInDB(**user_dict)  # Pass the keys and values of the user_dict directly as key-value arguments
-    hashed_password = fake_hash_password(form_data.password)
-    if not hashed_password == user.hashed_password:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    return {"access_token": user.username, "token_type": "bearer"}
-
-
-@router.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+# @router.post("/token")
+# async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+#     user_dict = fake_users_db.get(form_data.username)
+#     if not user_dict:
+#         raise HTTPException(status_code=400, detail="Incorrect username or password")
+#     user = UserInDB(**user_dict)
+#     hashed_password = fake_hash_password(form_data.password)
+#     if not hashed_password == user.hashed_password:
+#         raise HTTPException(status_code=400, detail="Incorrect username or password")
+#
+#     return {"access_token": user.username, "token_type": "bearer"}
 
 
 # @router.get("/users/me")
 # async def read_users_me(current_user: User = Depends(get_current_user)):
 #     return current_user
 
+# @router.post("/token", response_model=Token)
+# # todo: swap this out for a html form
+# async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+#     user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+#     if not user:
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect username or password",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     access_token = create_access_token(
+#         # The JWT specification says that there's a key sub, with the subject of the token.
+#         # It's optional to use it, but that's where you would put the user's identification, so we are using it here
+#
+#         # to avoid ID collisions, when creating the JWT token for the user, you could prefix the value of the sub key,
+#         # e.g. with username:. So, in this example, the value of sub could have been: username:johndoe
+#         data={"sub": user.username}, expires_delta=access_token_expires
+#     )
+#     return {"access_token": access_token, "token_type": "bearer"}
+@router.get('/account/oauth_login')
+@template(template_file='account/oauth_login.pt')
+def login_get(request: Request):
+    vm = OauthLoginViewModel(request)
+    return vm.to_dict()
+
+
+@router.post("/account/oauth_login", response_model=Token)
+@template(template_file='account/oauth_login.pt')
+async def login_for_access_token(request: Request):
+    vm = OauthLoginViewModel(request)
+
+    if not vm.user_id:
+        response = fastapi.responses.RedirectResponse(url="/account/login", status_code=status.HTTP_302_FOUND)
+        return response
+
+    await vm.login()
+    if vm.error:
+        return vm.to_dict()
+
+    # user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+
+    user = await user_service.login_user(vm.email, vm.password)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        # The JWT specification says that there's a key sub, with the subject of the token.
+        # It's optional to use it, but that's where you would put the user's identification, so we are using it here
+
+        # to avoid ID collisions, when creating the JWT token for the user, you could prefix the value of the sub key,
+        # e.g. with username:. So, in this example, the value of sub could have been: username:johndoe
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 @router.get("/users/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
     return current_user
-
-
-@router.get("/users/me/items/")
-async def read_own_items(current_user: User = Depends(get_current_active_user)):
-    return [{"item_id": "Foo", "owner": current_user.username}]
+#
+#
+# @router.get("/users/me/items/")
+# async def read_own_items(current_user: User = Depends(get_current_active_user)):
+#     return [{"item_id": "Foo", "owner": current_user.username}]

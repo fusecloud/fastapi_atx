@@ -14,6 +14,9 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     password = pwd.genword()
     api_key = pwd.genword()
 
+    # todo: for the fake user,
+    #  the password isn't being hashed so can log in with any string
+
     # load fake users
     df_users = \
         pd.DataFrame({

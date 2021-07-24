@@ -1,0 +1,20 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="form-container">
+            <form action="" method="POST" class="oauth-form">
+                <h1>Authenticate with Oauth</h1>
+
+                <input name="email" type="email" placeholder="email" class="form-control" required>
+                <br>
+                <input name="password" type="text" placeholder="password" class="form-control" required>
+
+                <button type="submit" class="btn btn-danger">Submit</button>
+                <div style="clear: both;"></div>
+
+                <div class="error-msg" tal:condition="error">${ error }</div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

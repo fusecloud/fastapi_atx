@@ -85,6 +85,8 @@ async def login_post(request: Request):
     if vm.error:
         return vm.to_dict()
 
+    print("Passed password")
+    print(vm.password)
     user = await user_service.login_user(vm.email, vm.password)
     if not user:
         # can add this to add expense to people trying to hack site
