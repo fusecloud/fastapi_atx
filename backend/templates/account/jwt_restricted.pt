@@ -1,0 +1,20 @@
+<div metal:use-macro="load: ../shared/_layout.pt">
+    <div metal:fill-slot="content" tal:omit-tag="True">
+        <div class="form-container">
+            <div>
+                <h2>JWT Restricted Page</h2>
+            </div>
+
+            <!--?            todo; add logout btn-->
+            <form
+                    action="/account/jwt/logout"
+                  method="GET">
+                <button
+                        type="submit" class="btn btn-danger">Logout JWT
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+

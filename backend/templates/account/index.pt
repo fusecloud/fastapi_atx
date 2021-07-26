@@ -18,6 +18,12 @@
         <div>
             <a class="nav-link" href="/docs" target="_blank">API Docs</a>
         </div>
+        <div>
+            <a class="nav-link" href="/account/jwt_login">JWT Login</a>
+        </div>
+        <div>
+            <a class="nav-link" href="/account/jwt_restricted">JWT Restricted</a>
+        </div>
     </div>
 </div>
 

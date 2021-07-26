@@ -11,7 +11,7 @@ import fastapi_chameleon
 from data import db_session, load_fake_data
 
 # web app views
-from views import home, account, chores, oauth
+from views import home, account, chores, jwt
 
 # api routes
 from api import chores as chores_api
@@ -73,7 +73,7 @@ def configure_routes():
     app.include_router(chores_api.router)
 
     # oauth endpoints
-    app.include_router(oauth.router)
+    app.include_router(jwt.router)
 
 
 def configure_db(conn_str: Optional[str] = False):

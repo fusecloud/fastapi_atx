@@ -85,8 +85,6 @@ async def login_post(request: Request):
     if vm.error:
         return vm.to_dict()
 
-    print("Passed password")
-    print(vm.password)
     user = await user_service.login_user(vm.email, vm.password)
     if not user:
         # can add this to add expense to people trying to hack site
@@ -105,7 +103,7 @@ async def login_post(request: Request):
 
 @router.get('/account/logout')
 def logout(request: Request):
-    response = fastapi.responses.RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
+    response = fastapi.responses.RedirectResponse(url="/account", status_code=status.HTTP_302_FOUND)
     cookie_auth.logout(response)
 
     return response

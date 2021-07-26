@@ -1,18 +1,32 @@
 import hashlib
 from typing import Optional
 
+from fastapi import HTTPException, status
+from jose import JWTError, jwt
 from starlette.requests import Request
 from starlette.responses import Response
 
+from services import user_service
 from infrastructure.num_convert import try_int
 
+# jwt
+SECRET_KEY = "50e7eda291939113a3cdf0163040d651b370d148eee62236edfe418bb8375130"
+ALGORITHM = "HS256"
+
 auth_cookie_name = 'chores_account'
+jwt_cookie_name = 'chores_account_jwt'
 
 
 def set_auth(response: Response, user_id: int):
     hash_val = __hash_text(str(user_id))
     val = "{}:{}".format(user_id, hash_val)
     response.set_cookie(auth_cookie_name, val, secure=False, httponly=True, samesite='Lax')
+
+
+def set_jwt(response: Response, jwt_object: dict):
+    # hash_val = __hash_text(str(user_id))
+    # val = "{}:{}".format(user_id, hash_val)
+    response.set_cookie(jwt_cookie_name, jwt_object, secure=False, httponly=True, samesite='Lax')
 
 
 def __hash_text(text: str) -> str:
@@ -39,5 +53,37 @@ def get_user_id_via_auth_cookie(request: Request) -> Optional[int]:
     return try_int(user_id)
 
 
+async def get_user_id_via_jwt_cookie(request: Request):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    if jwt_cookie_name not in request.cookies:
+        return None
+
+    token = request.cookies[jwt_cookie_name]
+
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+
+        if email is None:
+            raise credentials_exception
+        # token_data = TokenData(email=email)
+    except JWTError:
+        raise credentials_exception
+    # user = get_user(fake_users_db, username=token_data.username)
+    user = await user_service.get_user_by_email(email)
+    if user is None:
+        raise credentials_exception
+    return user.id
+
+
 def logout(response: Response):
     response.delete_cookie(auth_cookie_name)
+
+
+def logout_jwt(response: Response):
+    response.delete_cookie(jwt_cookie_name)
