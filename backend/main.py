@@ -15,6 +15,7 @@ from views import home, account, chores, jwt
 
 # api routes
 from api import chores as chores_api
+from api import jwt as jwt_api
 
 app = fastapi.FastAPI(
     title="ChoreViz API",
@@ -71,8 +72,9 @@ def configure_routes():
 
     # api endpoints
     app.include_router(chores_api.router)
+    app.include_router(jwt_api.router)
 
-    # oauth endpoints
+    # web jwt example endpoints
     app.include_router(jwt.router)
 
 

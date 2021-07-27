@@ -6,7 +6,7 @@
 
                 <input name="email" type="email" placeholder="email" class="form-control" required>
                 <br>
-                <input name="password" type="text" placeholder="password" class="form-control" required>
+                <input name="password" type="password" placeholder="password" class="form-control" required>
 
                 <button type="submit" class="btn btn-danger">Submit</button>
                 <div style="clear: both;"></div>

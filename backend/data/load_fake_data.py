@@ -6,8 +6,13 @@ from passlib import pwd
 
 import pandas as pd
 
+skip_fake_load = False
+
 
 def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"):
+    if skip_fake_load:
+        return
+
     user_email = "test@test.com"
     user_name = "Johnny Test"
     user_id = 1051

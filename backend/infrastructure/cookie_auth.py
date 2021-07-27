@@ -9,10 +9,11 @@ from starlette.responses import Response
 from services import user_service
 from infrastructure.num_convert import try_int
 
-# jwt
+# JUWT
 SECRET_KEY = "50e7eda291939113a3cdf0163040d651b370d148eee62236edfe418bb8375130"
 ALGORITHM = "HS256"
 
+# COOKIES
 auth_cookie_name = 'chores_account'
 jwt_cookie_name = 'chores_account_jwt'
 
