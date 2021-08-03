@@ -6,7 +6,7 @@ from passlib import pwd
 
 import pandas as pd
 
-skip_fake_load = False
+skip_fake_load = True
 
 
 def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"):
@@ -18,9 +18,6 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     user_id = 1051
     password = pwd.genword()
     api_key = pwd.genword()
-
-    # todo: for the fake user,
-    #  the password isn't being hashed so can log in with any string
 
     # load fake users
     df_users = \

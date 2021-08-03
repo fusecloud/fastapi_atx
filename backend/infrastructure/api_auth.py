@@ -55,6 +55,8 @@ async def get_user_creds(email: str = Security(em_header_auth), password: str = 
             detail="Missing Email or Password in Header",
         )
 
+    # 2 api calls here so that we don't confirm to requester that email exists
+    # could be combined into 1 and return 'Invalid Email or Password'
     user = await user_service.get_user_by_email(email)
     if not user:
         raise HTTPException(
