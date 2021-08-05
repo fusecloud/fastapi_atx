@@ -4,8 +4,8 @@ import requests
 from datetime import datetime
 
 # 1: LOGIN
-email = "test@test.com"
-pwd = "asdasdadaasd"
+email = "collier@fusecloud.co"
+pwd = "test123"
 # create header with uid/pass
 headers = {"email": email, "pwd": pwd}
 # login to get access token & refresh token
@@ -42,7 +42,7 @@ r4 = requests.get("http://127.0.0.1:8000/api/refresh_token",
 r_dict4 = json.loads(r4.content)
 pprint.pprint(r_dict4)
 
-pprint.pprint(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+# pprint.pprint(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 # 5: REFRESH TOKEN: NEGATIVE TEST
 headers = {"refresh_token": bad_access_token}
@@ -52,4 +52,4 @@ r4 = requests.get("http://127.0.0.1:8000/api/refresh_token",
 r_dict4 = json.loads(r4.content)
 pprint.pprint(r_dict4)
 
-pprint.pprint(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+# pprint.pprint(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

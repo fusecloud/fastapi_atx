@@ -3,7 +3,7 @@ import pprint
 import requests
 
 # pwd="9Qmrn6amB"
-api_key = "rGDZ3jBhM"
+api_key = "ulbuBSEt6"
 headers = {"Authorization": api_key}
 
 # get all chores
@@ -14,7 +14,7 @@ pprint.pprint(json.loads(r.content))
 # get specific chore
 r = requests.get("http://127.0.0.1:8000/api/chores",
                  headers=headers,
-                 json={"chore_id": "259822"})
+                 json={"chore_id": "1"})
 pprint.pprint(json.loads(r.content))
 
 # add a chore
