@@ -1,12 +1,24 @@
-from typing import List, Dict
+import uvicorn
+from typing import List, Dict, Optional
 from datetime import datetime
+from pydantic import BaseModel
 import fastapi
-
 
 api = fastapi.FastAPI()
 
+
+class Chore(BaseModel):
+    name: str
+    days_until_alert: int
+    date_added: Optional[str]
+
+
+class Regimen(BaseModel):
+    chore_list: List[Chore]
+
+
 # "Database" of Todos
-__todos: List[Dict] = [
+__todos: List[Chore] = [
     {
         "name": "walk dog",
         "days_until_alert": 1,
@@ -22,15 +34,15 @@ __todos: List[Dict] = [
 
 # SERVICES
 # get list of todos
-async def get_todos() -> List:
-    return list(__todos)
+async def get_todos() -> List[Chore]:
+    return __todos
 
 
-# add new todoitem
-async def add_todo(name: str, frequency: int) -> str:
+# # add new todoitem
+async def add_todo(chore: Chore) -> str:
     __todos.append({
-        "name": name,
-        "days_until_alert": frequency,
+        "name": chore.name,
+        "days_until_alert": chore.days_until_alert,
         "date_added": datetime.now().strftime("%Y-%m-%d")
     })
 
@@ -38,14 +50,22 @@ async def add_todo(name: str, frequency: int) -> str:
 
 
 # API ROUTES
-@api.get('/todos', name='all_todos', response_model=List)
-async def todos_get() -> List:
+@api.get('/', name='home')
+async def index():
+    return {"message": "Hello FastAPI!"}
+
+
+@api.get('/todos', name='Get All Todos', response_model=List[Chore])
+async def todos_get() -> List[Chore]:
     return await get_todos()
 
 
-@api.post('/todos')
-async def todos_post(todo_submission: Dict) -> str:
-    return await add_todo(
-        name=todo_submission['name'],
-        frequency=todo_submission['days_until_alert']
-    )
+@api.post('/todos', name='Create a Todo', response_model=Chore)
+async def todos_post(chore: Chore) -> Chore:
+    await add_todo(chore=chore)
+    return chore
+
+
+if __name__ == '__main__':
+    print("Running on port 8000")
+    uvicorn.run(app=api, port=8000, host='127.0.0.1')
