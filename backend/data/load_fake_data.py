@@ -6,7 +6,7 @@ from passlib import pwd
 
 import pandas as pd
 
-skip_fake_load = True
+skip_fake_load = False
 
 
 def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"):
@@ -15,6 +15,7 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
 
     user_email = "test@test.com"
     user_name = "Johnny Test"
+    occupation = "Developer"
     user_id = 1051
     password = pwd.genword()
     api_key = pwd.genword()
@@ -25,6 +26,7 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
             "id": [user_id],
             "name": [user_name],
             "email": [user_email],
+            "occupation": [occupation],
             "hash_password": [password],
             "api_key": [api_key],
             "created_date": [datetime.now()],

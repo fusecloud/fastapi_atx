@@ -16,6 +16,7 @@ from views import home, account, chores, jwt
 # api routes
 from api import chores as chores_api
 from api import jwt as jwt_api
+from api.graphql import graphql as graphql_api
 
 app = fastapi.FastAPI(
     title="ChoreViz API",
@@ -70,12 +71,15 @@ def configure_routes():
     app.include_router(account.router, include_in_schema=False)
     app.include_router(chores.router, include_in_schema=False)
 
+    # web jwt example endpoints
+    app.include_router(jwt.router)
+
     # api endpoints
     app.include_router(chores_api.router)
     app.include_router(jwt_api.router)
 
-    # web jwt example endpoints
-    app.include_router(jwt.router)
+    # graphql endpoint
+    app.include_router(graphql_api.router)
 
 
 def configure_db(conn_str: Optional[str] = False):

@@ -24,3 +24,4 @@ colorama
 sqlalchemy>=1.4.3
 aiosqlite>=0.17.0
 pandas
+graphene

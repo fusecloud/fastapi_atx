@@ -6,6 +6,7 @@ class User(BaseModel):
     id: int
     name: str
     email: str
+    occupation: str
     created_date: datetime.datetime
     last_login: datetime.datetime
     profile_image_url: str
