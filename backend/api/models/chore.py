@@ -6,9 +6,9 @@ from pydantic import BaseModel
 # https://fastapi.tiangolo.com/tutorial/schema-extra-example/
 
 class Chore(BaseModel):
-    id: Optional[int]
+    chore_id: Optional[int]
     user_id: Optional[int]
-    name: str
+    chore_name: str
     category: str
     type: str
     alert_days: int

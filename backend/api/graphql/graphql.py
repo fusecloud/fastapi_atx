@@ -28,7 +28,7 @@ router.add_route(
 router.add_route(
     "/graphql",
     GraphQLApp(
-        schema=graphene.Schema(query=Query),
-        executor_class=AsyncioExecutor
+        schema=graphene.Schema(query=Query, auto_camelcase=False),
+        executor_class=AsyncioExecutor,
     )
 )

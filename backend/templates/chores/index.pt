@@ -6,13 +6,12 @@
 
             <div class="chore" tal:repeat="c chores">
                 <hr>
-                <a href="/chores/${c.id}"><h3>${c.name}</h3></a>
-                <!--?                <div class="title">${c.id}</a></div>-->
+                <a href="/chores/${c.chore_id}"><h3>${c.chore_name}</h3></a>
                 <br>
                 <div class="row">
                     <div class="col-md-1 col-sm-1">
                         <form
-                                action="/chores/${c.id}/delete"
+                                action="/chores/${c.chore_id}/delete"
                                 method="POST" class="account-form">
                             <button type="submit" class="btn btn-danger">Delete</button>
                             <div style="clear: both;"></div>
@@ -20,7 +19,7 @@
                     </div>
                     <div class="col-md-1 col-sm-1">
                         <form
-                                action="/chores/${c.id}/edit"
+                                action="/chores/${c.chore_id}/edit"
                                 method="GET" class="account-form">
                             <button type="submit" class="btn btn-dark">Update</button>
                             <div style="clear: both;"></div>

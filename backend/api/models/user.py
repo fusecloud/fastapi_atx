@@ -3,8 +3,8 @@ import datetime
 
 
 class User(BaseModel):
-    id: int
-    name: str
+    user_id: int
+    user_name: str
     email: str
     occupation: str
     created_date: datetime.datetime

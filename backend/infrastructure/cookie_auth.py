@@ -79,7 +79,7 @@ async def get_user_id_via_jwt_cookie(request: Request):
     user = await user_service.get_user_by_email(email)
     if user is None:
         raise credentials_exception
-    return user.id
+    return user.user_id
 
 
 def logout(response: Response):

@@ -12,10 +12,10 @@ class ChoreViewModel(ViewModelBase):
     def __init__(self, request: Request):
         super().__init__(request)
         self.chores: List[Chore] = []
-        self.id: Optional[id] = None
+        self.chore_id: Optional[int] = None
 
         # form input properties
-        self.name: Optional[str] = None
+        self.chore_name: Optional[str] = None
         self.category: Optional[str] = None
         self.type: Optional[str] = None
         self.alert_days: Optional[int] = None
@@ -42,12 +42,12 @@ class ChoreViewModel(ViewModelBase):
 
     async def add_chore(self):
         form = await self.request.form()
-        self.name: str = form.get("name")
+        self.chore_name: str = form.get("name")
         self.category: str = form.get("category")
         self.type: str = form.get("type")
         self.alert_days: Optional[int] = form.get("alert_days")
 
-        if not self.name:
+        if not self.chore_name:
             self.error = "You must name your chore"
 
         elif not self.category:

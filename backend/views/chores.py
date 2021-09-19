@@ -73,13 +73,13 @@ async def index(request: Request):
     chore = \
         await chore_service.add_chore(
             user_id=vm.user_id,
-            name=vm.name,
+            name=vm.chore_name,
             category=vm.category,
             type=vm.type,
             alert_days=vm.alert_days
         )
 
-    response = fastapi.responses.RedirectResponse(url=f"/chores/{chore.id}", status_code=status.HTTP_302_FOUND)
+    response = fastapi.responses.RedirectResponse(url=f"/chores/{chore.chore_id}", status_code=status.HTTP_302_FOUND)
     return response
 
 
@@ -128,7 +128,7 @@ async def index(request: Request, id: int):
     await chore_service.edit_chore(
         id=id,
         user_id=vm.user_id,
-        name=vm.name,
+        name=vm.chore_name,
         category=vm.category,
         type=vm.type,
         alert_days=vm.alert_days

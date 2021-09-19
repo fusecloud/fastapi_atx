@@ -7,8 +7,8 @@ from data.models.modelbase import SqlAlchemyBase
 class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
-    id: int = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name: str = sa.Column(sa.String)
+    user_id: int = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    user_name: str = sa.Column(sa.String)
     email: str = sa.Column(sa.String, index=True, unique=True)
     occupation: str = sa.Column(sa.String, index=False, unique=False)
     hash_password: str = sa.Column(sa.String)

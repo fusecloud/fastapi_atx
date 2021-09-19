@@ -8,7 +8,7 @@
                     <form action="" method="POST" class="account-form">
                         <h1>Update Chore</h1>
 
-                        <input name="name" type="text" class="form-control" value="${c.name}"
+                        <input name="name" type="text" class="form-control" value="${c.chore_name}"
                                required>
                         <br>
                         <hr>

@@ -4,7 +4,7 @@
             <h1>Your ChoreViz Account</h1>
 
             <div>
-                Welcome ${ user.name }!
+                Welcome ${ user.user_name }!
             </div>
             <br>
             <div>

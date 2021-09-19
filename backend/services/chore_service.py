@@ -14,7 +14,7 @@ async def add_chore(name: str, category: str,
                     user_id: int
                     ) -> Chore:
     chore = Chore()
-    chore.name = name
+    chore.chore_name = name
     chore.user_id = user_id
     chore.category = category
     chore.type = type
@@ -32,11 +32,11 @@ async def edit_chore(id: int, user_id: int, name: str, category: str, type: str,
         sql = f'''
         update chores
         set 
-        name = '{name}',
+        chore_name = '{name}',
         category = '{category}',
         type = '{type}',
         alert_days = {alert_days}
-        where id = {id}
+        where chore_id = {id}
         and user_id = {user_id}
         '''
         print(sql)
@@ -48,7 +48,7 @@ async def remove_chore(id: int, user_id: int):
     async with db_session.create_async_session() as session:
         sql = f'''
         delete from chores 
-        where id = {id}
+        where chore_id = {id}
         and user_id = {user_id}
         '''
         print(sql)
@@ -89,7 +89,7 @@ async def get_user_chores(user_id: int, chore_id: Optional[int] = False) -> Opti
             )
 
         if chore_id:
-            query = query.filter(Chore.id == chore_id)
+            query = query.filter(Chore.chore_id == chore_id)
 
         result = await session.execute(query)
         chores = result.scalars()

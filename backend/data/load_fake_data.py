@@ -23,8 +23,8 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     # load fake users
     df_users = \
         pd.DataFrame({
-            "id": [user_id],
-            "name": [user_name],
+            "user_id": [user_id],
+            "user_name": [user_name],
             "email": [user_email],
             "occupation": [occupation],
             "hash_password": [password],
@@ -43,9 +43,9 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     # load fake chores
     df_chores = \
         pd.DataFrame({
-            "id": [259821, 259822, 259823],
+            "chore_id": [259821, 259822, 259823],
             "user_id": [user_id, user_id, user_id],
-            "name": ["vacuum", "water plants", "clean kitchen"],
+            "chore_name": ["vacuum", "water plants", "clean kitchen"],
             "category": ["cleaning", "gardening", "cleaning"],
             "type": ["recurring", "recurring", "recurring"],
             "alert_days": [14, 3, 17]

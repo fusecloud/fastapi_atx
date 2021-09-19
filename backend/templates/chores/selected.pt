@@ -3,9 +3,9 @@
         <div class="page-core">
 
             <div class="chore" tal:repeat="c chores">
-                <h1>${c.name}</h1>
-                <div class="title"><a href="/chores/${c.id}">${c.id}</a></div>
-                <div class="desc">${c.name}</div>
+                <h1>${c.chore_name}</h1>
+                <div class="title"><a href="/chores/${c.chore_id}">${c.chore_id}</a></div>
+                <div class="desc">${c.chore_name}</div>
 <!--?                todo; delete button-->
             </div>
 

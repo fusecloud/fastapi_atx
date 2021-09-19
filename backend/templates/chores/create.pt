@@ -6,7 +6,7 @@
                 <form action="" method="POST" class="account-form">
                     <h1>Add a Chore</h1>
 
-                    <input name="name" type="text" placeholder=" Chore Name" class="form-control" value="${ name }"
+                    <input name="name" type="text" placeholder=" Chore Name" class="form-control" value="${ chore_name }"
                            required>
                     <br>
                     <hr>

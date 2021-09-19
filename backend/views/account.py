@@ -63,7 +63,7 @@ async def register(request: Request):
 
     # login user
     response = fastapi.responses.RedirectResponse(url="/account", status_code=status.HTTP_302_FOUND)
-    cookie_auth.set_auth(response, account.id)
+    cookie_auth.set_auth(response, account.user_id)
 
     return response
 
@@ -96,7 +96,7 @@ async def login_post(request: Request):
         return vm.to_dict()
 
     resp = fastapi.responses.RedirectResponse('/account', status_code=status.HTTP_302_FOUND)
-    cookie_auth.set_auth(resp, user.id)
+    cookie_auth.set_auth(resp, user.user_id)
 
     return resp
 

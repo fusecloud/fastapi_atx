@@ -21,7 +21,7 @@ async def create_account(name: str, email: str, password: str) -> User:
     # this stuff will run ahead of time (right away)
     user = User()
     user.email = email
-    user.name = name
+    user.user_name = name
     user.hash_password = crypto.hash(password, rounds=172_434)
     user.api_key = pwd.genword()
 
@@ -66,7 +66,7 @@ async def get_user_by_id(user_id: int) -> Optional[User]:
     :return:
     """
     async with db_session.create_async_session() as session:
-        query = select(User).filter(User.id == user_id)
+        query = select(User).filter(User.user_id == user_id)
         result = await session.execute(query)
         return result.scalar_one_or_none()
 
