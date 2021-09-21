@@ -24,7 +24,7 @@ async def get_chores(search_criteria: Optional[Dict] = None,
         print(f"User searched for chore: {search_criteria['chore_id']}")
 
     return await chore_service.get_user_chores(
-        user_id=user.id,
+        user_id=user.user_id,
         chore_id=search_criteria['chore_id'] if search_criteria and search_criteria['chore_id'] else None
     )
 
@@ -36,8 +36,8 @@ async def create_chore(search_criteria: Chore, user: User = Depends(get_api_key)
     """
 
     await chore_service.add_chore(
-        user_id=user.id,
-        name=search_criteria.name,
+        user_id=user.user_id,
+        name=search_criteria.chore_name,
         category=search_criteria.category,
         type=search_criteria.type,
         alert_days=search_criteria.alert_days
@@ -53,16 +53,16 @@ async def edit_chore(search_criteria: Chore, user: User = Depends(get_api_key)) 
     Edits a user chore
     """
 
-    if not search_criteria.id:
+    if not search_criteria.chore_id:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Missing chore id",
         )
 
     await chore_service.edit_chore(
-        user_id=user.id,
-        id=search_criteria.id,
-        name=search_criteria.name,
+        user_id=user.user_id,
+        id=search_criteria.chore_id,
+        name=search_criteria.chore_name,
         category=search_criteria.category,
         type=search_criteria.type,
         alert_days=search_criteria.alert_days
@@ -77,15 +77,15 @@ async def delete_chore(search_criteria: Chore, user: User = Depends(get_api_key)
     """
     Deletes a user chore
     """
-    if not search_criteria.id:
+    if not search_criteria.chore_id:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Missing chore id",
         )
 
     await chore_service.remove_chore(
-        user_id=user.id,
-        id=search_criteria.id,
+        user_id=user.user_id,
+        id=search_criteria.chore_id,
     )
 
     return Response(content="Chore Deleted", status_code=200)

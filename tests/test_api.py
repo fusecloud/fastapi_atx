@@ -3,7 +3,7 @@ import pprint
 import requests
 
 # pwd="9Qmrn6amB"
-api_key = "ulbuBSEt6"
+api_key = "MojKkyp9f"
 headers = {"Authorization": api_key}
 
 # get all chores
@@ -14,7 +14,7 @@ pprint.pprint(json.loads(r.content))
 # get specific chore
 r = requests.get("http://127.0.0.1:8000/api/chores",
                  headers=headers,
-                 json={"chore_id": "1"})
+                 json={"chore_id": "259821"})
 pprint.pprint(json.loads(r.content))
 
 # add a chore
@@ -23,7 +23,7 @@ r = requests.post(
     headers=headers,
     json= \
         {
-            "name": "Test API Chore",
+            "chore_name": "Test API Chore",
             "category": "Coding",
             "type": "recurring",
             "alert_days": 3
@@ -31,7 +31,7 @@ r = requests.post(
 )
 pprint.pprint(r.content)
 
-chore_id = 259829
+chore_id = 259823
 
 # edit a chore
 r = requests.post(
@@ -39,8 +39,8 @@ r = requests.post(
     headers=headers,
     json= \
         {
-            "id": chore_id,
-            "name": "Test API Chore UPDATED",
+            "chore_id": 1,
+            "chore_name": "Water plants UPDATES",
             "category": "Coding",
             "type": "recurring",
             "alert_days": 3
@@ -54,8 +54,8 @@ r = requests.post(
     headers=headers,
     json= \
         {
-            "id": chore_id,
-            "name": "Test API Chore UPDATED",
+            "chore_id": chore_id,
+            "chore_name": "Test API Chore UPDATED",
             "category": "Coding",
             "type": "recurring",
             "alert_days": 3

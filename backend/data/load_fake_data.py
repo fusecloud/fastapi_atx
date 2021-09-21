@@ -1,10 +1,11 @@
+import sqlalchemy
 from colorama import Fore
 from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 from datetime import datetime
 from typing import Optional
 from passlib import pwd
-
 import pandas as pd
+import numpy as np
 
 skip_fake_load = False
 
@@ -17,8 +18,8 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
     user_name = "Johnny Test"
     occupation = "Developer"
     user_id = 1051
-    password = pwd.genword()
-    api_key = pwd.genword()
+    password = "testtesttest"  # pwd.genword()
+    api_key = "testtesttest"  # pwd.genword()
 
     # load fake users
     df_users = \
@@ -52,7 +53,13 @@ def run(conn_str: Optional[str] = "sqlite+pysqlite:////app/backend/db/db.sqlite"
 
         })
 
-    df_chores.to_sql(name="chores", con=conn_str, index=False, if_exists="append")
+    try:
+        df_chores.to_sql(name="chores", con=conn_str, index=False, if_exists="append")
+    except sqlalchemy.ext.IntegrityError:
+        df_chores['chore_id'] = df_chores['chore_id'] + np.random.randint(1, 1_000_000)
+        df_chores['user_id'] = df_chores['user_id'] + np.random.randint(1, 1_000_000)
+        df_chores.to_sql(name="chores", con=conn_str, index=False, if_exists="append")
+
     df_chores_loaded = pd.read_sql_query(sql="select * from chores", con=conn_str)
 
     print(Fore.CYAN + "Chores loaded: ")

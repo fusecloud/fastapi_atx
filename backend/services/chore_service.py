@@ -22,6 +22,7 @@ async def add_chore(name: str, category: str,
 
     async with db_session.create_async_session() as session:
         session.add(chore)
+        print("new chore....")
         await session.commit()
 
     return chore
@@ -54,10 +55,6 @@ async def remove_chore(id: int, user_id: int):
         print(sql)
         await session.execute(sql)
         await session.commit()
-        # query = select(Chore).filter(Chore.id == id).delete()
-        # session.query(Chore).filter(Chore.id == id).delete()
-        # await session.commit()
-        # await session.execute(query)
 
 
 async def get_user_chores(user_id: int, chore_id: Optional[int] = False) -> Optional[List[Chore]]:
@@ -72,10 +69,6 @@ async def get_user_chores(user_id: int, chore_id: Optional[int] = False) -> Opti
     print("user_id")
     print(user_id)
     print(type(user_id))
-
-    # print("api_key")
-    # print(api_key)
-    # print(type(api_key))
 
     print("chore_id")
     print(chore_id)
@@ -95,3 +88,52 @@ async def get_user_chores(user_id: int, chore_id: Optional[int] = False) -> Opti
         chores = result.scalars()
 
         return list({r for r in chores})
+
+
+async def get_user_and_chore_data(user_id: int, user_fields: Optional[list] = [], chore_fields: Optional[list] = []):
+    async with db_session.create_async_session() as session:
+        sql = f'''
+        select
+        {", ".join(["c." + x for x in chore_fields]) if chore_fields != [] else ""}
+        /*connector comma between fields sets*/
+        {"," if user_fields and chore_fields != [] else ""}
+        {", ".join(["u." + x for x in user_fields]) if user_fields != [] else ""}
+        from 
+        /*table selections*/
+        {"chores c " if chore_fields != [] else ""}
+        /*join_condition*/
+        {"join " if user_fields != [] and chore_fields != [] else ""}
+        {"users u " if user_fields != [] else ""}
+        {"on c.user_id = u.user_id " if user_fields != [] and chore_fields != [] else ""}
+        /*user_id filter for requesting user*/
+        where {"c" if chore_fields != [] else "u"}.user_id={user_id}
+        '''
+
+        # sql = "select * from chores"
+
+        sql = sql.replace("\n", "").replace("  ", " ").strip()
+        print("SQL Query:")
+        print("----------------------------------")
+        print(sql)
+
+        # get the results
+        result = await session.execute(sql)
+        q_chores = result.fetchall()
+
+        # create a list of dictionaries {requested_fields:requested_values}
+        r_all = []
+        for r in q_chores:
+            r_all.append(
+                dict(
+                    zip(
+                        chore_fields + user_fields,
+                        r
+                    )
+                )
+            )
+
+        print("Results:")
+        print("----------------------------------")
+        print(r_all)
+
+        return r_all

@@ -16,7 +16,7 @@ from views import home, account, chores, jwt
 # api routes
 from api import chores as chores_api
 from api import jwt as jwt_api
-from api.graphql import graphql as graphql_api
+from api.graphql import routes as graphql_api
 
 app = fastapi.FastAPI(
     title="ChoreViz API",
