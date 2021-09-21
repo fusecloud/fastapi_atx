@@ -145,4 +145,4 @@ async def get_user_id_via_jwt_token(access_token: str = Security(access_token_he
     user = await user_service.get_user_by_email(email)
     if user is None:
         raise credentials_exception
-    return user.id
+    return user.user_id

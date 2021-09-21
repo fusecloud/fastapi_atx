@@ -4,8 +4,8 @@ import requests
 from datetime import datetime
 
 # 1: LOGIN
-email = "collier@fusecloud.co"
-pwd = "test123"
+email = "test@test.com"
+pwd = "testtesttest"
 # create header with uid/pass
 headers = {"email": email, "pwd": pwd}
 # login to get access token & refresh token

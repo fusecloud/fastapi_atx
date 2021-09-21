@@ -4,9 +4,12 @@
 
             <div class="chore" tal:repeat="c chores">
                 <h1>${c.chore_name}</h1>
-                <div class="title"><a href="/chores/${c.chore_id}">${c.chore_id}</a></div>
-                <div class="desc">${c.chore_name}</div>
-<!--?                todo; delete button-->
+                <div class="title"><a href="/chores/${c.chore_id}"><strong>Chore id:</strong> ${c.chore_id}</a></div>
+                <div class="desc"><strong>Name:</strong> ${c.chore_name}</div>
+                <div class="desc"><strong>Category:</strong> ${c.category}</div>
+                <div class="desc"><strong>Type:</strong> ${c.type}</div>
+                <div class="desc"><strong>Alert Days:</strong> ${c.alert_days}</div>
+                <!--?                todo; delete button-->
             </div>
 
         </div>

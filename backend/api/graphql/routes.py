@@ -1,19 +1,14 @@
-from typing import Optional, List, Dict
-from fastapi import Header, Body, Depends
-from api.models.chore import Chore
-from api.models.user import User
-from starlette import status
-from starlette.responses import Response, HTMLResponse
-from services import chore_service, user_service
-from infrastructure.api_auth import get_api_key
-from fastapi import Security, HTTPException
-
+from fastapi import Depends
+from fastapi import Security
 import fastapi
 import graphene
 from starlette.graphql import GraphQLApp
 from starlette.requests import Request
 from api.graphql.queries import QueryTest, Query
 from api.graphql.mutations import Mutation
+from api.models.user import User
+from api.models.chore import Chore
+from infrastructure.api_auth import get_api_key
 from graphql.execution.executors.asyncio import AsyncioExecutor
 
 router = fastapi.APIRouter()
@@ -31,16 +26,53 @@ graphql_app = \
     )
 
 
-@router.post('/graphql', dependencies=[Security(get_api_key)])
+@router.post('/graphql',
+             dependencies=[Security(get_api_key)],
+             name="GraphQL Interface"
+             )
 async def graphql_endpoint(request: Request, user: User = Depends(get_api_key)):
-    print("user.user_id")
-    print(user.user_id)
-    request.state.user_id = user.user_id
-    print("request.state.user_id")
-    print(request.state.user_id)
+    """
+    Interface for GraphQL queries and mutations.
 
-    print('request.headers')
-    print(request.headers)
+    Example Query:
+
+    \n
+    {\n
+      \tuser_chores {\n
+        \tuser_name\n
+        \toccupation\n
+        \temail\n
+        \tchore_id\n
+        \tchore_name\n
+        \ttype\n
+        \talert_days\n
+      \t}\n
+    }\n
+
+    Example Mutation:
+
+    \n
+    mutation {\n
+        \tcreate_chore(\n
+            \t\tchore_name: "TEST GraphQL"\n
+            \t\tcategory: "Dev"\n
+            \t\ttype: "one-time"\n
+            \t\talert_days: 1\n
+        \t) {\n
+            \tchore {\n
+            \t\tuser_id\n
+            \t\tchore_name\n
+            \t\tcategory\n
+            \t\ttype\n
+            \t}\n
+            \tok\n
+        }\n
+    }\n
+    """
+
+    # extract the user_id from header's api key and pass to request state
+    request.state.user_id = user.user_id
+
     return await graphql_app.handle_graphql(request=request)
 
 # @router.add_route('/graphql', methods=['GET', 'POST'])

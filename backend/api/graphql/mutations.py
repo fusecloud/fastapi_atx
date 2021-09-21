@@ -1,5 +1,5 @@
 import graphene
-from api.models.graphql import Chore
+from api.graphql.types import Chore
 from services import chore_service
 
 
@@ -10,7 +10,8 @@ class CreateChore(graphene.Mutation):
         type = graphene.String()
         alert_days = graphene.Int()
 
-    Output = Chore
+    ok = graphene.Boolean()
+    chore = graphene.Field(lambda: Chore)
 
     async def mutate(
             self, info,
@@ -25,12 +26,13 @@ class CreateChore(graphene.Mutation):
         # get the user_id of the requesting user
         user_id = request_data.state.user_id
 
-        chore = Chore()
-        chore.user_id = user_id
-        chore.chore_name = chore_name
-        chore.category = category
-        chore.type = type
-        chore.alert_days = alert_days
+        chore = Chore(
+            user_id=user_id,
+            chore_name=chore_name,
+            category=category,
+            type=type,
+            alert_days=alert_days
+        )
 
         # insert into db
         await chore_service.add_chore(
@@ -41,10 +43,11 @@ class CreateChore(graphene.Mutation):
             alert_days=chore.alert_days
         )
 
-        return chore
+        ok = True
+
+        return CreateChore(chore=chore, ok=ok)
 
 
-# todo: expiriment with optional parameters
 class EditChore(graphene.Mutation):
     class Arguments:
         chore_id = graphene.Int()
@@ -53,7 +56,8 @@ class EditChore(graphene.Mutation):
         type = graphene.String()
         alert_days = graphene.Int()
 
-    Output = Chore
+    ok = graphene.Boolean()
+    chore = graphene.Field(lambda: Chore)
 
     async def mutate(
             self, info,
@@ -69,12 +73,14 @@ class EditChore(graphene.Mutation):
         # get the user_id of the requesting user
         user_id = request_data.state.user_id
 
-        chore = Chore()
-        chore.user_id = user_id
-        chore.chore_name = chore_name
-        chore.category = category
-        chore.type = type
-        chore.alert_days = alert_days
+        # construct the chore
+        chore = Chore(
+            user_id=user_id,
+            chore_name=chore_name,
+            category=category,
+            type=type,
+            alert_days=alert_days
+        )
 
         # insert into db
         await chore_service.edit_chore(
@@ -86,14 +92,17 @@ class EditChore(graphene.Mutation):
             alert_days=chore.alert_days
         )
 
-        return chore
+        ok = True
+
+        return EditChore(chore=chore, ok=ok)
+        # return chore
 
 
 class RemoveChore(graphene.Mutation):
     class Arguments:
         chore_id = graphene.Int()
 
-    Output = Chore
+    ok = graphene.Boolean()
 
     async def mutate(
             self, info,
@@ -111,10 +120,12 @@ class RemoveChore(graphene.Mutation):
             user_id=user_id
         )
 
-        return chore_id
+        ok = True
+
+        return RemoveChore(ok=ok)
 
 
 class Mutation(graphene.ObjectType):
     create_chore = CreateChore.Field()
     edit_chore = EditChore.Field()
-    delete_chore = RemoveChore.Field()
+    remove_chore = RemoveChore.Field()

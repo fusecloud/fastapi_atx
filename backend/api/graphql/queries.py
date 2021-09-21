@@ -1,7 +1,7 @@
 import graphene
 from api.models.chore import Chore as ChorePydantic
 from api.models.user import User as UserPydantic
-from api.models.graphql import User, Chore, UserChore
+from api.graphql.types import User, Chore, UserChore
 from services import chore_service
 
 # get list of table fields

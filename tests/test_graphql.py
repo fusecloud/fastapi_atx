@@ -2,7 +2,6 @@ import json
 import pprint
 import requests
 
-# pwd="9Qmrn6amB"
 api_key = "testtesttest"
 headers = {
     "Authorization": api_key,
@@ -10,32 +9,14 @@ headers = {
 }
 
 # QUERIES
-
-# hello world
-# query = \
-#     """
-#     {
-#       hello {
-#         "world
-#       }
-#     }
-#     """
-#
-# r = requests.post("http://127.0.0.1:8000/graphql",
-#                   json={
-#                       "query": query
-#                   },
-#                   headers=headers
-#                   )
-#
-# pprint.pprint(json.loads(r.content))
-
 # Get user and/or chore data
 query = \
     '''
     {
       user_chores {
         user_name
+        occupation
+        email
         chore_id
         chore_name
         type
@@ -56,7 +37,7 @@ pprint.pprint(json.loads(r.content))
 
 # MUTATIONS
 # Add a chore
-# -- needs dbl quotes
+
 mutation = \
     '''
     mutation {
@@ -65,11 +46,14 @@ mutation = \
             category: "Dev"
             type: "one-time"
             alert_days: 1
-        ){
-            user_id
-            chore_name
-            category
-            type
+        ) {
+            chore {
+                user_id
+                chore_name
+                category
+                type
+            }
+            ok
         }
     }
     '''
@@ -88,16 +72,41 @@ mutation = \
     '''
     mutation {
         edit_chore(
-            chore_id: 1
-            chore_name: "TEST GraphQL-UPDATED2"
+            chore_id: 259824
+            chore_name: "TEST GraphQL-UPDATED"
             category: "Dev-UPDATED"
             type: "one-time-UPDATED"
-            alert_days: 99
-        ){
-            chore_name
-            category
-            type
-            alert_days
+            alert_days: 1
+        ) {
+            chore {
+                user_id
+                chore_name
+                category
+                type
+            }
+            ok
+        }
+    }
+    '''
+
+r = requests.post("http://127.0.0.1:8000/graphql",
+                  json={
+                      "query": mutation
+                  },
+                  headers=headers
+                  )
+
+pprint.pprint(json.loads(r.content))
+
+
+# remove a chore
+mutation = \
+    '''
+    mutation {
+        remove_chore(
+            chore_id: 259824
+        ) {
+            ok
         }
     }
     '''
