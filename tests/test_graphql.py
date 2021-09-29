@@ -108,9 +108,7 @@ mutation = \
     '''
 
 r = requests.post("http://127.0.0.1:8000/graphql",
-                  json={
-                      "query": mutation
-                  },
+                  json={"query": mutation},
                   headers=headers
                   )
 
