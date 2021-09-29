@@ -4,10 +4,9 @@ import fastapi
 import graphene
 from starlette.graphql import GraphQLApp
 from starlette.requests import Request
-from api.graphql.queries import QueryTest, Query
+from api.graphql.queries import Query
 from api.graphql.mutations import Mutation
 from api.models.user import User
-from api.models.chore import Chore
 from infrastructure.api_auth import get_api_key
 from graphql.execution.executors.asyncio import AsyncioExecutor
 

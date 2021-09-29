@@ -82,7 +82,7 @@ class EditChore(graphene.Mutation):
             alert_days=alert_days
         )
 
-        # insert into db
+        # update db
         await chore_service.edit_chore(
             id=chore_id,
             user_id=chore.user_id,
@@ -114,7 +114,7 @@ class RemoveChore(graphene.Mutation):
         # get the user_id of the requesting user
         user_id = request_data.state.user_id
 
-        # insert into db
+        # remove from db
         await chore_service.remove_chore(
             id=chore_id,
             user_id=user_id

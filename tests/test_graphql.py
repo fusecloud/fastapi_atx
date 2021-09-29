@@ -26,12 +26,11 @@ query = \
     '''
 
 # get all chores
-r = requests.post("http://127.0.0.1:8000/graphql",
-                  json={
-                      "query": query
-                  },
-                  headers=headers
-                  )
+r = requests.post(
+    "http://127.0.0.1:8000/graphql",
+    json={"query": query},
+    headers=headers
+)
 
 pprint.pprint(json.loads(r.content))
 
@@ -58,12 +57,11 @@ mutation = \
     }
     '''
 
-r = requests.post("http://127.0.0.1:8000/graphql",
-                  json={
-                      "query": mutation
-                  },
-                  headers=headers
-                  )
+r = requests.post(
+    "http://127.0.0.1:8000/graphql",
+    json={"query": mutation},
+    headers=headers
+)
 
 pprint.pprint(json.loads(r.content))
 
@@ -72,7 +70,7 @@ mutation = \
     '''
     mutation {
         edit_chore(
-            chore_id: 259824
+            chore_id: 259825
             chore_name: "TEST GraphQL-UPDATED"
             category: "Dev-UPDATED"
             type: "one-time-UPDATED"
@@ -89,22 +87,20 @@ mutation = \
     }
     '''
 
-r = requests.post("http://127.0.0.1:8000/graphql",
-                  json={
-                      "query": mutation
-                  },
-                  headers=headers
-                  )
+r = requests.post(
+    "http://127.0.0.1:8000/graphql",
+    json={"query": mutation},
+    headers=headers
+)
 
 pprint.pprint(json.loads(r.content))
-
 
 # remove a chore
 mutation = \
     '''
     mutation {
         remove_chore(
-            chore_id: 259824
+            chore_id: 259825
         ) {
             ok
         }
