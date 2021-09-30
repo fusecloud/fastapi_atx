@@ -16,7 +16,7 @@ Repo branches correspond with Meetup events on different Meetup event topics. Se
 
 [FastAPI Authentication Methods - 8/4/21](https://docs.google.com/presentation/d/17J1ZVZgDJWr9UPRBeOFYC5ycX89eGq5kjzd6XBXf1X4/edit#slide=id.gc6f919934_0_0)
 
-[FastAPI & GraphQL - 9/29/21](https://docs.google.com/presentation/d/17J1ZVZgDJWr9UPRBeOFYC5ycX89eGq5kjzd6XBXf1X4/edit#slide=id.gc6f919934_0_0)
+[FastAPI & GraphQL - 9/29/21](https://docs.google.com/presentation/d/1L8dsGxZ45XPyl74WkLTh3_jfolC9wYCUJE9hZPtLsdk/edit#slide=id.gf0472a5c89_2_0)
 
 
 
