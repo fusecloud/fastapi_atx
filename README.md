@@ -1,5 +1,5 @@
 # fastapi_atx
-Repo for the apps built in the Austin FastAPI Developers Meetup group
+Repo for the apps built in the [Austin FastAPI Developers Meetup group](https://www.meetup.com/austin-fastapi-developers/)
 
 [FastAPI Intro Google Slides](https://docs.google.com/presentation/u/1/d/1ICLQUtL4KQhcHNrdsqLA98T6qiQvB8QqLlu79pW3A6w/edit?usp=drive_web&ouid=102134414320533809054)
 
