@@ -70,7 +70,7 @@ mutation = \
     '''
     mutation {
         edit_chore(
-            chore_id: 259825
+            chore_id: 259826
             chore_name: "TEST GraphQL-UPDATED"
             category: "Dev-UPDATED"
             type: "one-time-UPDATED"
@@ -100,7 +100,7 @@ mutation = \
     '''
     mutation {
         remove_chore(
-            chore_id: 259825
+            chore_id: 259826
         ) {
             ok
         }

@@ -45,4 +45,3 @@ class UserChore(graphene.ObjectType):
     category = graphene.String()
     type = graphene.String()
     alert_days = graphene.Int()
-
